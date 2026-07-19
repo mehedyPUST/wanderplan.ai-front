@@ -1,9 +1,10 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import axiosInstance from "@/api/axiosInstance";
 
 interface User {
-    id: string;
+    _id: string;
     email: string;
     name: string;
     avatar?: string;
@@ -15,9 +16,9 @@ export function useAuth() {
 
     useEffect(() => {
         axiosInstance
-            .get("/user/profile")   // corrected path
+            .get("/user/profile")
             .then((res) => setUser(res.data))
-            .catch(() => setUser(null))   // not logged in
+            .catch(() => setUser(null))
             .finally(() => setLoading(false));
     }, []);
 
