@@ -1,10 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import QueryProvider from "@/providers/QueryProvider";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import ChatWidget from "@/components/chat/ChatWidget";
 import Script from "next/script";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "WanderPlan AI",
