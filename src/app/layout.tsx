@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import QueryProvider from "@/providers/QueryProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ChatWidget from "@/components/chat/ChatWidget";
 
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navbar />
           <main className="min-h-screen">{children}</main>
           <Footer />
+          <ChatWidget />
         </QueryProvider>
       </body>
     </html>
