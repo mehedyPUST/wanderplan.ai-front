@@ -15,7 +15,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://wanderplan-ai-back.vercel.app/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://wanderplan-ai-back.vercel.app';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -72,18 +72,10 @@ export default function LoginPage() {
                 </form>
                 <div className="mt-4 text-center">
                     <button onClick={handleDemoLogin} className="text-emerald-600 hover:text-emerald-800 font-semibold text-sm transition-colors">
-                        Demo Login (auto-fill)
+                        Demo Login (auto‑fill)
                     </button>
                 </div>
-                <div className="relative my-6">
-                    <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-gray-200" />
-                    </div>
-                    <div className="relative flex justify-center text-sm">
-                        <span className="px-2 bg-white text-gray-500">or</span>
-                    </div>
-                </div>
-                <p className="text-center text-sm text-gray-500">
+                <p className="mt-6 text-center text-sm text-gray-500">
                     Don&apos;t have an account?{" "}
                     <Link href="/register" className="text-emerald-600 font-semibold hover:text-emerald-800 transition-colors">
                         Sign up
