@@ -90,8 +90,8 @@ export default function ChatWidget() {
                             <div className="flex items-center gap-2">
                                 <FaRobot className="text-xl" />
                                 <div>
-                                    <h3 className="font-bold text-sm">Travel Assistant</h3>
-                                    <p className="text-xs text-purple-100">Powered by DeepSeek AI</p>
+                                    <h3 className="font-bold text-sm">AI Travel Assistant</h3>
+                                    <p className="text-xs text-purple-100">Powered by Wanderplan</p>
                                 </div>
                             </div>
                             <button onClick={() => setIsOpen(false)} className="text-white hover:text-gray-200">
