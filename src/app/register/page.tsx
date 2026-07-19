@@ -74,20 +74,31 @@ export default function RegisterPage() {
         }
     };
 
-    const handleGoogleSuccess = async (credentialResponse: any) => {
-        setServerError("");
-        try {
-            const response = await fetch(`${API_URL}/api/auth/google`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ token: credentialResponse.credential }),
-                credentials: "include",
+    const handleGoogleLogin = () => {
+        const win = window as any;
+        if (win.google) {
+            win.google.accounts.id.initialize({
+                client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "",
+                callback: async (response: any) => {
+                    try {
+                        const res = await fetch(`${API_URL}/api/auth/google`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ token: response.credential }),
+                            credentials: "include",
+                        });
+                        const data = await res.json();
+                        if (res.ok) {
+                            window.location.href = "/";
+                        } else {
+                            setServerError(data.message || "Google signup failed");
+                        }
+                    } catch {
+                        setServerError("Google signup failed");
+                    }
+                },
             });
-            const result = await response.json();
-            if (!response.ok) throw new Error(result.message || "Google signup failed");
-            window.location.href = "/";
-        } catch (err: any) {
-            setServerError(err.message || "Google signup failed");
+            win.google.accounts.id.prompt();
         }
     };
 
@@ -307,14 +318,9 @@ export default function RegisterPage() {
                             )}
                         </motion.button>
 
-                        {/* Google Signup Button */}
                         <button
                             type="button"
-                            onClick={() => {
-                                if ((window as any).google) {
-                                    (window as any).google.accounts.id.prompt();
-                                }
-                            }}
+                            onClick={handleGoogleLogin}
                             className="w-full py-3 border border-gray-300 rounded-2xl flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors text-gray-700 font-medium"
                         >
                             <svg className="w-5 h-5" viewBox="0 0 24 24">

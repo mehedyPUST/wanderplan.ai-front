@@ -4,7 +4,7 @@ import QueryProvider from "@/providers/QueryProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ChatWidget from "@/components/chat/ChatWidget";
-
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "WanderPlan AI",
@@ -21,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
           <ChatWidget />
         </QueryProvider>
+        <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" />
       </body>
     </html>
   );
