@@ -1,0 +1,23 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="200" height="200">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981"/>
+      <stop offset="100%" style="stop-color:#0F766E"/>
+    </linearGradient>
+  </defs>
+  <circle cx="250" cy="230" r="200" fill="url(#bgGrad)"/>
+  <circle cx="250" cy="210" r="110" fill="none" stroke="white" stroke-width="3" opacity="0.3"/>
+  <ellipse cx="250" cy="210" rx="55" ry="110" fill="none" stroke="white" stroke-width="2.5" opacity="0.5"/>
+  <line x1="140" y1="210" x2="360" y2="210" stroke="white" stroke-width="2.5" opacity="0.5"/>
+  <g transform="translate(250, 210) scale(1.1)">
+    <path d="M-8 10 L-25 -5 L-10 -2 L0 -15 L25 -25 L40 -20 L25 -10 L10 2 L8 -5 Z" fill="white" transform="rotate(-15)"/>
+  </g>
+  <circle cx="130" cy="120" r="3" fill="#FBBF24"/>
+  <circle cx="370" cy="130" r="3" fill="#FBBF24"/>
+  <circle cx="120" cy="300" r="2.5" fill="#FBBF24"/>
+  <circle cx="380" cy="310" r="2.5" fill="#FBBF24"/>
+  <circle cx="200" cy="100" r="2" fill="#FBBF24"/>
+  <circle cx="310" cy="320" r="2" fill="#FBBF24"/>
+  <text x="250" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="52" font-weight="bold" fill="white" letter-spacing="2">WanderPlan</text>
+  <text x="250" y="460" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="500" fill="#FBBF24" letter-spacing="1">AI Driven Travel Assistant</text>
+</svg>

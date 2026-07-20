@@ -77,6 +77,12 @@ export default function RegisterPage() {
     const handleGoogleLogin = () => {
         const win = window as any;
         if (win.google) {
+            if (win._googleInitialized) {
+                win.google.accounts.id.prompt();
+                return;
+            }
+            win._googleInitialized = true;
+
             win.google.accounts.id.initialize({
                 client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "",
                 callback: async (response: any) => {
@@ -210,6 +216,7 @@ export default function RegisterPage() {
                                     id="name"
                                     type="text"
                                     {...register("name")}
+                                    autoComplete="name"
                                     className="w-full pl-11 sm:pl-12 pr-4 py-3 sm:py-3.5 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-sm sm:text-base placeholder-gray-400"
                                     placeholder="John Doe"
                                 />
@@ -229,6 +236,7 @@ export default function RegisterPage() {
                                     id="email"
                                     type="email"
                                     {...register("email")}
+                                    autoComplete="email"
                                     className="w-full pl-11 sm:pl-12 pr-4 py-3 sm:py-3.5 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-sm sm:text-base placeholder-gray-400"
                                     placeholder="you@example.com"
                                 />
@@ -248,6 +256,7 @@ export default function RegisterPage() {
                                     id="password"
                                     type={showPassword ? "text" : "password"}
                                     {...register("password")}
+                                    autoComplete="new-password"
                                     className="w-full pl-11 sm:pl-12 pr-12 py-3 sm:py-3.5 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-sm sm:text-base placeholder-gray-400"
                                     placeholder="Min 6 characters"
                                 />
