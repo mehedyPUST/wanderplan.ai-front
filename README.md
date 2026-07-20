@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌍 WanderPlan - AI Driven Travel Assistant
 
-## Getting Started
+> **Live Demo:** [wanderplan-ai-front.vercel.app](https://wanderplan-ai-front.vercel.app)
 
-First, run the development server:
+WanderPlan is a full-stack, production-ready travel platform powered by **Agentic AI**. It provides personalized destination recommendations, AI-generated itineraries, and a floating AI chat assistant — all within a beautiful, responsive interface.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📋 Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🤖 AI Features (3 Agentic AI Systems)
+- **AI Smart Recommendation Engine** — Analyzes user preferences (budget, interests, travel style) and recommends personalized destinations using Groq LLM
+- **AI Itinerary Generator** — Creates detailed day-by-day travel plans with adjustable length and streaming responses
+- **AI Chat Assistant** — Floating chatbot powered by Groq AI for real-time travel assistance
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🔐 Authentication
+- Email/Password Registration & Login
+- **Demo Login** (auto-fill credentials: `console@test.com` / `Test@123`)
+- Google OAuth (configured)
+- JWT-based httpOnly cookie authentication
+- Protected routes with automatic redirect
 
-## Learn More
+### 📄 Core Pages
+- **Home** — Hero slider, AI-curated featured destinations, stats, testimonials, newsletter
+- **Explore** — Search, filter by category/price/rating, sort, pagination
+- **Destination Details** — Image gallery, key info, wishlist, plan trip button
+- **AI Recommendations** — Preference-based destination matching
+- **Itineraries** — Create (with AI), manage, edit, delete
+- **Wishlist** — Save and manage favorite destinations
+- **Profile** — Update info, change password
+- **Blog** — Travel articles and tips
+- **About** — Mission, features, how it works
 
-To learn more about Next.js, take a look at the following resources:
+### 🎨 UI/UX
+- 3 primary colors: Emerald, Amber, Teal
+- Fully responsive (mobile, tablet, desktop)
+- Framer Motion animations
+- Skeleton loaders
+- Floating AI chat widget
+- Consistent card design
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Technology Stack
 
-## Deploy on Vercel
+### Frontend
+| Technology | Purpose |
+|------------|---------|
+| Next.js 16 | React framework with App Router |
+| TypeScript | Type safety |
+| Tailwind CSS v4 | Utility-first styling |
+| TanStack Query | Server state management |
+| Framer Motion | Animations |
+| React Hook Form + Zod | Form validation |
+| Axios | API client |
+| Lucide React / React Icons | Icons |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Backend
+| Technology | Purpose |
+|------------|---------|
+| Node.js + Express.js | REST API server |
+| TypeScript | Type safety |
+| MongoDB (native driver) | Database |
+| JWT (jsonwebtoken) | Authentication |
+| Groq SDK | AI/LLM integration |
+| Multer + ImgBB | Image upload |
+| Vercel Serverless | Deployment |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
