@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/api/axiosInstance";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Button from "@/components/ui/Button";
+import { FaMapMarkerAlt, FaDollarSign, FaCalendarAlt, FaStar, FaHeart, FaLightbulb } from "react-icons/fa";
 
 // Hero Slider Data
 const slides = [
@@ -97,25 +98,28 @@ function HeroSection() {
 
 // Main Home Page
 export default function HomePage() {
-  const { data, isLoading, error } = useQuery({
+  // Fetch AI-generated featured destinations
+  const { data: featuredData, isLoading } = useQuery({
     queryKey: ["featured-destinations"],
-    queryFn: () => axiosInstance.get("/destinations?limit=4").then((res) => res.data),
-    staleTime: 30_000,
+    queryFn: () => axiosInstance.get("/featured").then((res) => res.data),
+    staleTime: 60 * 60 * 1000, // 1 hour
   });
 
-  // Log any error to console for debugging
-  if (error) console.error("Failed to load destinations:", error);
+  const destinations = featuredData || [];
 
   return (
     <div>
       <HeroSection />
 
-      {/* Featured Destinations Section */}
+      {/* AI Featured Destinations Section */}
       <section className="max-w-7xl mx-auto px-4 py-16">
-        <SectionHeader title="Popular Destinations" subtitle="Handpicked by our AI for you" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <SectionHeader
+          title="AI-Curated Destinations"
+          subtitle="Fresh picks updated weekly by our AI"
+        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {isLoading
-            ? Array.from({ length: 4 }).map((_, i) => (
+            ? Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse">
                 <div className="h-52 bg-gray-200" />
                 <div className="p-4 space-y-3">
@@ -125,9 +129,9 @@ export default function HomePage() {
                 </div>
               </div>
             ))
-            : data?.data?.map((dest: any, i: number) => (
+            : destinations.slice(0, 6).map((dest: any, i: number) => (
               <motion.div
-                key={dest._id}
+                key={dest.slug || i}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
@@ -136,21 +140,26 @@ export default function HomePage() {
               >
                 <div className="relative overflow-hidden">
                   <img
-                    src={dest.images?.[0] || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop"}
+                    src={dest.image || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop"}
                     alt={dest.name}
                     className="h-52 w-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm text-emerald-700 text-xs font-bold px-2 py-1 rounded-full">
                     ★ {dest.rating}
                   </div>
+                  {dest.reason && (
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
+                      <p className="text-white text-xs">🔥 {dest.reason}</p>
+                    </div>
+                  )}
                 </div>
                 <div className="p-4">
                   <h3 className="font-semibold text-lg text-gray-800">{dest.name}</h3>
                   <p className="text-gray-500 text-sm mt-1 line-clamp-2">{dest.shortDescription}</p>
                   <div className="mt-4 flex justify-between items-end">
                     <div>
-                      <span className="text-emerald-600 font-bold">${dest.priceRange.min}</span>
-                      <span className="text-gray-400 text-sm"> – ${dest.priceRange.max}</span>
+                      <span className="text-emerald-600 font-bold">${dest.priceRange?.min}</span>
+                      <span className="text-gray-400 text-sm"> – ${dest.priceRange?.max}</span>
                     </div>
                     <Link href={`/destinations/${dest.slug}`}>
                       <Button variant="outline" className="text-xs py-1.5 px-3">
@@ -231,7 +240,7 @@ export default function HomePage() {
               viewport={{ once: true }}
               className="bg-white p-6 rounded-xl shadow-md"
             >
-              <p className="text-gray-600 italic mb-4">“{t.text}”</p>
+              <p className="text-gray-600 italic mb-4">"{t.text}"</p>
               <p className="font-semibold">— {t.name}</p>
             </motion.div>
           ))}
