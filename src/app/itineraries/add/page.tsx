@@ -24,6 +24,8 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://wanderplan-ai-back.vercel.app";
+
 export default function AddItineraryPage() {
     const { user, loading: authLoading } = useAuth();
     const router = useRouter();
@@ -89,7 +91,7 @@ function AddItineraryContent() {
         if (!budg || budg < 1) { setError("Please enter a budget first"); return; }
         setAiGenerating(true); setError("");
         try {
-            const response = await fetch("/api/ai/generate-itinerary", {
+            const response = await fetch(`${API_URL}/api/ai/generate-itinerary`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ destination: dest, days: getDays(), budget: budg, interests: ["sightseeing", "food", "culture"], length: "detailed" }),
