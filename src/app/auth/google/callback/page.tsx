@@ -3,6 +3,8 @@
 import { Suspense, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://wanderplan-ai-back.vercel.app";
+
 function CallbackContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -12,11 +14,24 @@ function CallbackContent() {
         if (called.current) return;
         called.current = true;
 
-        const token = searchParams.get("token");
+        const code = searchParams.get("code");
+        const returnUrl = searchParams.get("returnUrl") || "/";
 
-        if (token) {
-            // Cookie already set by backend, just redirect to home
-            window.location.href = "/";
+        if (code) {
+            fetch(`${API_URL}/api/auth/google/callback?code=${code}`, {
+                credentials: "include",
+            })
+                .then(res => res.json())
+                .then((data) => {
+                    if (data.success) {
+                        window.location.replace(data.returnUrl || returnUrl);
+                    } else {
+                        router.push("/login?error=google");
+                    }
+                })
+                .catch(() => {
+                    router.push("/login?error=google");
+                });
         } else {
             router.push("/login?error=google");
         }
@@ -32,11 +47,7 @@ function CallbackContent() {
 
 export default function GoogleCallbackPage() {
     return (
-        <Suspense fallback={
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-4 border-emerald-500 border-t-transparent"></div>
-            </div>
-        }>
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-4 border-emerald-500 border-t-transparent"></div></div>}>
             <CallbackContent />
         </Suspense>
     );
