@@ -66,11 +66,8 @@ export default function DestinationPage() {
             {/* Hero Section */}
             <div className="relative bg-gradient-to-br from-emerald-500 to-teal-600 text-white">
                 <div className="max-w-5xl mx-auto px-4 py-20 mt-16">
-                    <Link
-                        href="/ai-recommend"
-                        className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors"
-                    >
-                        <FaArrowLeft /> Back to Recommendations
+                    <Link href="/explore" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors">
+                        <FaArrowLeft /> Back to Explore
                     </Link>
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
                         <h1 className="text-5xl md:text-6xl font-bold mb-3">
@@ -134,9 +131,7 @@ export default function DestinationPage() {
                                 <h3 className="text-lg font-bold text-gray-800 mb-3">Tags</h3>
                                 <div className="flex flex-wrap gap-2">
                                     {dbDestination.tags.map((tag: string) => (
-                                        <span key={tag} className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium capitalize">
-                                            {tag}
-                                        </span>
+                                        <span key={tag} className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium capitalize">{tag}</span>
                                     ))}
                                 </div>
                             </motion.div>
@@ -148,26 +143,14 @@ export default function DestinationPage() {
                             <FaStar className="text-amber-500 text-5xl mx-auto mb-4" />
                             <h2 className="text-3xl font-bold text-gray-800 mb-2">{formattedName}</h2>
                             <p className="text-gray-600 text-lg mb-4">This destination was recommended by our AI based on your travel preferences.</p>
-                            <p className="text-gray-500">
-                                Want a detailed itinerary? Use our{" "}
-                                <Link href="/ai-recommend" className="text-emerald-600 font-semibold hover:underline">AI Itinerary Generator</Link>
-                            </p>
+                            <p className="text-gray-500">Want a detailed itinerary? Use our <Link href="/ai-recommend" className="text-emerald-600 font-semibold hover:underline">AI Itinerary Generator</Link></p>
                         </motion.div>
-
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white rounded-2xl p-8 shadow-lg">
-                            <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                <FaHeart className="text-rose-500" /> Why Visit {formattedName}?
-                            </h3>
-                            <p className="text-gray-600 leading-relaxed">
-                                {formattedName} is a fantastic destination that matches your travel preferences.
-                                This location offers a unique blend of culture, attractions, and experiences.
-                            </p>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2"><FaHeart className="text-rose-500" /> Why Visit {formattedName}?</h3>
+                            <p className="text-gray-600 leading-relaxed">{formattedName} is a fantastic destination that matches your travel preferences. This location offers a unique blend of culture, attractions, and experiences.</p>
                         </motion.div>
-
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-white rounded-2xl p-8 shadow-lg">
-                            <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                <FaLightbulb className="text-amber-500" /> Travel Tips
-                            </h3>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2"><FaLightbulb className="text-amber-500" /> Travel Tips</h3>
                             <ul className="space-y-3 text-gray-600">
                                 <li className="flex items-start gap-2"><span className="text-emerald-500 mt-1">✦</span> Research the best time to visit</li>
                                 <li className="flex items-start gap-2"><span className="text-emerald-500 mt-1">✦</span> Book accommodations in advance</li>
@@ -175,62 +158,46 @@ export default function DestinationPage() {
                                 <li className="flex items-start gap-2"><span className="text-emerald-500 mt-1">✦</span> Check visa requirements</li>
                             </ul>
                         </motion.div>
-
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div className="bg-white rounded-2xl p-6 shadow-lg text-center">
-                                <FaCalendarAlt className="text-blue-500 text-3xl mx-auto mb-3" />
-                                <h4 className="font-bold text-gray-800">Best Time</h4>
-                                <p className="text-sm text-gray-500 mt-1">Varies by season</p>
-                            </div>
-                            <div className="bg-white rounded-2xl p-6 shadow-lg text-center">
-                                <FaDollarSign className="text-emerald-500 text-3xl mx-auto mb-3" />
-                                <h4 className="font-bold text-gray-800">Budget</h4>
-                                <p className="text-sm text-gray-500 mt-1">Depends on your style</p>
-                            </div>
-                            <div className="bg-white rounded-2xl p-6 shadow-lg text-center">
-                                <FaStar className="text-amber-500 text-3xl mx-auto mb-3" />
-                                <h4 className="font-bold text-gray-800">Rating</h4>
-                                <p className="text-sm text-gray-500 mt-1">Highly recommended</p>
-                            </div>
+                            <div className="bg-white rounded-2xl p-6 shadow-lg text-center"><FaCalendarAlt className="text-blue-500 text-3xl mx-auto mb-3" /><h4 className="font-bold text-gray-800">Best Time</h4><p className="text-sm text-gray-500 mt-1">Varies by season</p></div>
+                            <div className="bg-white rounded-2xl p-6 shadow-lg text-center"><FaDollarSign className="text-emerald-500 text-3xl mx-auto mb-3" /><h4 className="font-bold text-gray-800">Budget</h4><p className="text-sm text-gray-500 mt-1">Depends on your style</p></div>
+                            <div className="bg-white rounded-2xl p-6 shadow-lg text-center"><FaStar className="text-amber-500 text-3xl mx-auto mb-3" /><h4 className="font-bold text-gray-800">Rating</h4><p className="text-sm text-gray-500 mt-1">Highly recommended</p></div>
                         </motion.div>
                     </div>
                 )}
 
-                {/* CTA Buttons - FUNCTIONAL WISHLIST */}
+                {/* CTA Buttons */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
                     className="flex flex-col sm:flex-row gap-4 mt-8"
                 >
-                    <Link
-                        href={`/itineraries/add?destination=${encodeURIComponent(dbDestination?.name || formattedName)}`}
-                        className="flex-1 bg-emerald-500 text-white py-4 rounded-2xl font-bold text-lg hover:bg-emerald-600 transition-colors shadow-lg hover:shadow-xl text-center"
-                    >
-                        ✈️ Plan Your Trip
-                    </Link>
+                    {user ? (
+                        <Link
+                            href={`/itineraries/add?destination=${encodeURIComponent(dbDestination?.name || formattedName)}`}
+                            className="flex-1 bg-emerald-500 text-white py-4 rounded-2xl font-bold text-lg hover:bg-emerald-600 transition-colors shadow-lg hover:shadow-xl text-center"
+                        >
+                            ✈️ Plan Your Trip
+                        </Link>
+                    ) : (
+                        <Link
+                            href="/login"
+                            className="flex-1 bg-emerald-500 text-white py-4 rounded-2xl font-bold text-lg hover:bg-emerald-600 transition-colors shadow-lg hover:shadow-xl text-center"
+                        >
+                            ✈️ Login to Plan Your Trip
+                        </Link>
+                    )}
 
                     {user ? (
                         <motion.button
                             whileTap={{ scale: 0.95 }}
                             onClick={() => wishlistMutation.mutate()}
                             disabled={wishlistMutation.isPending}
-                            className={`flex-1 py-4 rounded-2xl font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 ${isSaved
-                                ? "bg-rose-500 text-white hover:bg-rose-600"
-                                : "bg-amber-400 text-white hover:bg-amber-500"
+                            className={`flex-1 py-4 rounded-2xl font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 ${isSaved ? "bg-rose-500 text-white hover:bg-rose-600" : "bg-amber-400 text-white hover:bg-amber-500"
                                 }`}
                         >
-                            {wishlistMutation.isPending ? (
-                                "Saving..."
-                            ) : isSaved ? (
-                                <>
-                                    <FaHeart className="text-lg" /> Saved to Wishlist
-                                </>
-                            ) : (
-                                <>
-                                    <FaHeart className="text-lg" /> Save to Wishlist
-                                </>
-                            )}
+                            {wishlistMutation.isPending ? "Saving..." : isSaved ? <><FaHeart className="text-lg" /> Saved to Wishlist</> : <><FaHeart className="text-lg" /> Save to Wishlist</>}
                         </motion.button>
                     ) : (
                         <Link
