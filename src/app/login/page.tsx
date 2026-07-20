@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -19,7 +19,22 @@ type LoginForm = z.infer<typeof loginSchema>;
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://wanderplan-ai-back.vercel.app";
 
 export default function LoginPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-emerald-500 border-t-transparent"></div>
+            </div>
+        }>
+            <LoginContent />
+        </Suspense>
+    );
+}
+
+function LoginContent() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const returnUrl = searchParams.get("returnUrl") || "/";
+
     const [showPassword, setShowPassword] = useState(false);
     const [serverError, setServerError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -45,7 +60,7 @@ export default function LoginPage() {
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.message || "Login failed");
-            window.location.href = "/";
+            window.location.href = returnUrl;
         } catch (err: any) {
             setServerError(err.message || "Login failed. Please try again.");
         } finally {
@@ -65,7 +80,7 @@ export default function LoginPage() {
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.message || "Demo login failed");
-            window.location.href = "/";
+            window.location.href = returnUrl;
         } catch (err: any) {
             setServerError(err.message || "Demo login failed.");
         } finally {
@@ -273,7 +288,7 @@ export default function LoginPage() {
                         </motion.button>
 
                         <a
-                            href={`${API_URL}/api/auth/google/redirect`}
+                            href={`${API_URL}/api/auth/google/redirect?returnUrl=${encodeURIComponent(returnUrl)}`}
                             className="w-full py-3 border border-gray-300 rounded-2xl flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors text-gray-700 font-medium"
                         >
                             <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -293,7 +308,7 @@ export default function LoginPage() {
                         className="mt-8 text-center text-xs sm:text-sm text-gray-500"
                     >
                         Don&apos;t have an account?{" "}
-                        <Link href="/register" className="text-emerald-600 font-bold hover:text-emerald-700 transition-colors">
+                        <Link href={`/register?returnUrl=${encodeURIComponent(returnUrl)}`} className="text-emerald-600 font-bold hover:text-emerald-700 transition-colors">
                             Create one
                             <ArrowRight className="w-3.5 h-3.5 inline ml-1" />
                         </Link>

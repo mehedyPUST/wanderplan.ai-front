@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -20,7 +20,22 @@ type RegisterForm = z.infer<typeof registerSchema>;
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://wanderplan-ai-back.vercel.app";
 
 export default function RegisterPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-emerald-500 border-t-transparent"></div>
+            </div>
+        }>
+            <RegisterContent />
+        </Suspense>
+    );
+}
+
+function RegisterContent() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const returnUrl = searchParams.get("returnUrl") || "/login";
+
     const [showPassword, setShowPassword] = useState(false);
     const [serverError, setServerError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -46,7 +61,7 @@ export default function RegisterPage() {
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.message || "Registration failed");
-            window.location.href = "/login?registered=true";
+            window.location.href = `${returnUrl}?registered=true`;
         } catch (err: any) {
             setServerError(err.message || "Registration failed. Please try again.");
         } finally {
@@ -66,7 +81,7 @@ export default function RegisterPage() {
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.message || "Demo signup failed");
-            window.location.href = "/login?registered=true";
+            window.location.href = `${returnUrl}?registered=true`;
         } catch (err: any) {
             setServerError(err.message || "Demo signup failed.");
         } finally {
@@ -294,7 +309,7 @@ export default function RegisterPage() {
                         </motion.button>
 
                         <a
-                            href={`${API_URL}/api/auth/google/redirect`}
+                            href={`${API_URL}/api/auth/google/redirect?returnUrl=${encodeURIComponent(returnUrl)}`}
                             className="w-full py-3 border border-gray-300 rounded-2xl flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors text-gray-700 font-medium"
                         >
                             <svg className="w-5 h-5" viewBox="0 0 24 24">

@@ -203,9 +203,12 @@ export default function DestinationPage() {
                     transition={{ delay: 0.4 }}
                     className="flex flex-col sm:flex-row gap-4 mt-8"
                 >
-                    <button className="flex-1 bg-emerald-500 text-white py-4 rounded-2xl font-bold text-lg hover:bg-emerald-600 transition-colors shadow-lg hover:shadow-xl">
+                    <Link
+                        href={`/itineraries/add?destination=${encodeURIComponent(dbDestination?.name || formattedName)}`}
+                        className="flex-1 bg-emerald-500 text-white py-4 rounded-2xl font-bold text-lg hover:bg-emerald-600 transition-colors shadow-lg hover:shadow-xl text-center"
+                    >
                         ✈️ Plan Your Trip
-                    </button>
+                    </Link>
 
                     {user ? (
                         <motion.button
@@ -213,8 +216,8 @@ export default function DestinationPage() {
                             onClick={() => wishlistMutation.mutate()}
                             disabled={wishlistMutation.isPending}
                             className={`flex-1 py-4 rounded-2xl font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 ${isSaved
-                                    ? "bg-rose-500 text-white hover:bg-rose-600"
-                                    : "bg-amber-400 text-white hover:bg-amber-500"
+                                ? "bg-rose-500 text-white hover:bg-rose-600"
+                                : "bg-amber-400 text-white hover:bg-amber-500"
                                 }`}
                         >
                             {wishlistMutation.isPending ? (

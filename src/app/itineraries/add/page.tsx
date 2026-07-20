@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -24,7 +24,22 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function AddItineraryPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center mt-16">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-emerald-500 border-t-transparent"></div>
+            </div>
+        }>
+            <AddItineraryContent />
+        </Suspense>
+    );
+}
+
+function AddItineraryContent() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const destinationFromUrl = searchParams.get("destination") || "";
+
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -34,6 +49,7 @@ export default function AddItineraryPage() {
         resolver: zodResolver(schema),
         defaultValues: {
             budget: 500,
+            destination: destinationFromUrl,
         },
     });
 
@@ -43,7 +59,6 @@ export default function AddItineraryPage() {
     const startDate = watch("startDate");
     const endDate = watch("endDate");
 
-    // Calculate number of days from dates
     const getDays = () => {
         if (startDate && endDate) {
             const start = new Date(startDate);
@@ -54,7 +69,6 @@ export default function AddItineraryPage() {
         return 3;
     };
 
-    // AI Generation Function
     const generateWithAI = async () => {
         const dest = watch("destination");
         const budg = watch("budget");
@@ -109,7 +123,6 @@ export default function AddItineraryPage() {
                 }
             }
 
-            // Auto-fill the form
             setValue("title", `${days}-Day Adventure in ${dest}`);
             setValue("shortDescription", `A ${days}-day trip to ${dest} with a budget of $${budg}. Dates: ${dateRange}.`);
             setValue("fullDescription", fullText.trim());
