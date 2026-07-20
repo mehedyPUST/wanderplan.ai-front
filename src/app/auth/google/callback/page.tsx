@@ -15,13 +15,15 @@ function CallbackContent() {
         called.current = true;
 
         const code = searchParams.get("code");
+        const returnUrl = searchParams.get("returnUrl") || "/";
+
         if (code) {
             fetch(`${API_URL}/api/auth/google/callback?code=${code}`, {
                 credentials: "include",
             })
                 .then(res => res.json())
                 .then(() => {
-                    window.location.href = "/";
+                    window.location.href = returnUrl;
                 })
                 .catch(() => {
                     router.push("/login?error=google");
