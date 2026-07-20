@@ -60,7 +60,8 @@ function LoginContent() {
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.message || "Login failed");
-            window.location.href = returnUrl;
+            router.push(returnUrl);
+            router.refresh();
         } catch (err: any) {
             setServerError(err.message || "Login failed. Please try again.");
         } finally {
@@ -80,7 +81,8 @@ function LoginContent() {
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.message || "Demo login failed");
-            window.location.href = returnUrl;
+            router.push(returnUrl);
+            router.refresh();
         } catch (err: any) {
             setServerError(err.message || "Demo login failed.");
         } finally {
