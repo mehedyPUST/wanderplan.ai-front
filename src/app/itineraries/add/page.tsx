@@ -6,10 +6,10 @@ import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import axiosInstance from "@/api/axiosInstance";
 import Link from "next/link";
-import { FaMapMarkerAlt, FaDollarSign, FaCalendarAlt, FaImage, FaInfoCircle, FaArrowLeft, FaPlus, FaRobot } from "react-icons/fa";
+import { FaMapMarkerAlt, FaDollarSign, FaCalendarAlt, FaImage, FaInfoCircle, FaArrowLeft, FaPlus, FaRobot, FaCheckCircle, FaList, FaHome } from "react-icons/fa";
 
 const schema = z.object({
     title: z.string().min(3, "Title must be at least 3 characters"),
@@ -59,7 +59,7 @@ function AddItineraryContent() {
     const searchParams = useSearchParams();
     const destinationFromUrl = searchParams.get("destination") || "";
     const [error, setError] = useState("");
-    const [success, setSuccess] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [aiGenerating, setAiGenerating] = useState(false);
 
@@ -124,8 +124,7 @@ function AddItineraryContent() {
         setError(""); setLoading(true);
         try {
             await axiosInstance.post("/itineraries", { ...data, travelDates: data.startDate && data.endDate ? { start: data.startDate, end: data.endDate } : undefined });
-            setSuccess(true);
-            setTimeout(() => router.push("/itineraries/manage"), 1500);
+            setShowSuccessModal(true);
         } catch (err: any) { setError(err.response?.data?.message || "Failed to create itinerary"); }
         finally { setLoading(false); }
     };
@@ -141,9 +140,10 @@ function AddItineraryContent() {
                     </motion.div>
                 </div>
             </div>
+
             <div className="max-w-3xl mx-auto px-4 -mt-6">
-                {success && <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="bg-emerald-50 border-2 border-emerald-500 text-emerald-700 p-6 rounded-2xl mb-6 text-center"><p className="text-xl font-bold">✅ Itinerary Created Successfully!</p></motion.div>}
                 {error && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-2xl mb-6 text-center">{error}</motion.div>}
+
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white rounded-2xl shadow-xl p-8 mb-12 border border-gray-100">
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         <div className="bg-blue-50 border border-blue-200 rounded-2xl p-5">
@@ -181,6 +181,54 @@ function AddItineraryContent() {
                     </form>
                 </motion.div>
             </div>
+
+            {/* Success Modal */}
+            <AnimatePresence>
+                {showSuccessModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+                            onClick={() => setShowSuccessModal(false)}
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            className="relative bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center z-10"
+                        >
+                            <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <FaCheckCircle className="text-5xl text-emerald-500" />
+                            </div>
+                            <h2 className="text-2xl font-bold text-gray-800 mb-2">Itinerary Created!</h2>
+                            <p className="text-gray-500 mb-8">Your trip plan has been saved successfully.</p>
+
+                            <div className="space-y-3">
+                                <Link
+                                    href="/itineraries/manage"
+                                    className="w-full py-3.5 bg-emerald-500 text-white rounded-2xl font-bold text-lg hover:bg-emerald-600 transition-colors flex items-center justify-center gap-2 shadow-md"
+                                >
+                                    <FaList /> Manage Itineraries
+                                </Link>
+                                <button
+                                    onClick={() => { setShowSuccessModal(false); }}
+                                    className="w-full py-3.5 bg-amber-400 text-white rounded-2xl font-bold text-lg hover:bg-amber-500 transition-colors flex items-center justify-center gap-2 shadow-md"
+                                >
+                                    <FaPlus /> Add More
+                                </button>
+                                <Link
+                                    href="/"
+                                    className="w-full py-3.5 border-2 border-gray-300 text-gray-600 rounded-2xl font-bold text-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
+                                >
+                                    <FaHome /> Back to Home
+                                </Link>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
